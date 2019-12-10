@@ -1,6 +1,6 @@
 import autograd.numpy as np
 from autograd.extend import primitive, defvjp
-from .parallel_matmul import _par_matmul
+from .parallel_matmul import _par_matmul, _par_matmul_complex
 
 @primitive
 def batched_dot(a, b):
@@ -32,6 +32,8 @@ def batched_dot(a, b):
             return np.transpose(np.reshape(a*b, outshape[::-1]))
     else:
         ## parallel batched matrix multiply
+        if np.complex128 in (a.dtype, b.dtype):
+            return _par_matmul_complex(a, b)
         return _par_matmul(a, b)
 
 defvjp(
