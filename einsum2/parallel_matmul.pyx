@@ -56,6 +56,6 @@ def _par_matmul_complex(np.ndarray[np.complex128_t, ndim=3] A,
         j = jl // L
         l = jl % L
         for k in range(K):
-            C[i,j,l] += A[i,j,k] * B[i,k,l]
+            C[i,j,l] = C[i,j,l] + A[i,j,k] * B[i,k,l]
 
     return C
